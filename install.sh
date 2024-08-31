@@ -24,7 +24,7 @@ fish -c "fish /tmp/fish-aliases.sh"
 fish -c "set -Ux NX_REJECT_UNKNOWN_LOCAL_CACHE 0"
 
 # Helix
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-sudo add-apt-repository ppa:maveonair/helix-editor
-sudo apt update
-sudo apt install helix
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+git clone https://github.com/helix-editor/helix
+cd helix
+cargo install --path helix-term --locked
