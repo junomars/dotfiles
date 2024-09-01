@@ -7,6 +7,7 @@ sudo apt-get update
 
 sh -c "$(curl -fsLS get.chezmoi.io)"
 sudo mv ./bin/* /usr/local/bin/
+rm -rf ./bin
 chezmoi init --apply https://github.com/$GITHUB_USERNAME/dotfiles.git
 
 sudo apt-get install -y \
