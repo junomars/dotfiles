@@ -5,11 +5,13 @@ DOTFILES_URI=${DOTFILES_URI:-https://github.com/$GITHUB_USERNAME/dotfiles}
 
 sudo apt-get update
 
+# Chezmoi
 sh -c "$(curl -fsLS get.chezmoi.io)"
 sudo mv ./bin/* /usr/local/bin/
 rm -rf ./bin
 chezmoi init --apply https://github.com/$GITHUB_USERNAME/dotfiles.git
 
+# Packages
 sudo apt-get install -y \
   curl gcc jq zip unzip htop tmux vim python3 python3-pip \
   zsh fonts-powerline \
@@ -32,3 +34,7 @@ git clone https://github.com/helix-editor/helix
 cd helix
 cargo install --path helix-term --locked
 
+# Dev setup
+sudo mkdir /usr/local/dev
+sudo chown coder:coder /usr/local/dev
+ln -s /usr/local/dev /home/coder/workspace
