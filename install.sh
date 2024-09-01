@@ -5,7 +5,9 @@ DOTFILES_URI=${DOTFILES_URI:-https://github.com/$GITHUB_USERNAME/dotfiles}
 
 sudo apt-get update
 
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+sh -c "$(curl -fsLS get.chezmoi.io)"
+sudo mv ./bin/* /usr/local/bin/
+chezmoi init --apply https://github.com/$GITHUB_USERNAME/dotfiles.git
 
 sudo apt-get install -y \
   curl gcc jq zip unzip htop tmux vim python3 python3-pip \
@@ -28,3 +30,4 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 git clone https://github.com/helix-editor/helix
 cd helix
 cargo install --path helix-term --locked
+
