@@ -8,6 +8,7 @@ sudo apt-get update
 # Chezmoi
 sh -c "$(curl -fsLS get.chezmoi.io)"
 sudo mv ./bin/* /usr/local/bin/
+chmod +x /usr/local/bin/chezmoi
 rm -rf ./bin
 chezmoi init --apply https://github.com/$GITHUB_USERNAME/dotfiles.git
 
@@ -30,6 +31,7 @@ fish -c "set -Ux NX_REJECT_UNKNOWN_LOCAL_CACHE 0"
 
 # Helix
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+cd /usr/local/
 git clone https://github.com/helix-editor/helix
 cd helix
 cargo install --path helix-term --locked
