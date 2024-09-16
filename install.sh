@@ -32,11 +32,10 @@ fish -c "set -Ux NX_REJECT_UNKNOWN_LOCAL_CACHE 0"
 # Helix
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 cd /usr/local/
-git clone https://github.com/helix-editor/helix
-cd helix
+sudo git clone https://github.com/helix-editor/helix
+sudo chown -r coder:coder helix
+cd /usr/local/helix
 cargo install --path helix-term --locked
 
 # Dev setup
-sudo mkdir /usr/local/dev
-sudo chown coder:coder /usr/local/dev
-ln -s /usr/local/dev /home/coder/workspace
+mkdir /home/coder/workspace/
