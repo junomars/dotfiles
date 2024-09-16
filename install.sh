@@ -44,9 +44,9 @@ configure_nx() {
 # Function to install Helix
 install_helix() {
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  sudo git clone https://github.com/helix-editor/helix $HELIX_DIR
-  sudo chown -R coder:coder $HELIX_DIR
-  cargo install --path $HELIX_DIR/helix-term --locked --target-dir /home/coder/helix-target
+  sudo git clone https://github.com/helix-editor/helix /usr/local/helix
+  sudo chown -R $USER:$USER /usr/local/helix
+  cargo install --path /usr/local/helix/helix-term --locked --target-dir /usr/local/helix-target
 }
 
 # Function to setup development workspace
