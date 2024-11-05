@@ -20,7 +20,8 @@ install_packages() {
 
 # Function to install chezmoi
 install_chezmoi() {
-  sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+  # Run chezmoi in non-interactive mode to prevent TTY errors
+  sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply --no-prompt $GITHUB_USERNAME
 }
 
 # Function to configure Fish shell
