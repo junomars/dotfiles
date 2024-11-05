@@ -1,21 +1,11 @@
 #!/bin/bash
 
+set -e
+
 GITHUB_USERNAME=junomars
 DOTFILES_URI=${DOTFILES_URI:-https://github.com/$GITHUB_USERNAME/dotfiles}
 BIN_DIR="/usr/local/bin"
 WORKSPACE_DIR="/home/coder/workspace"
-HELIX_DIR="/usr/local/helix"
-
-# Function to install chezmoi
-install_chezmoi() {
-  sh -c "$(curl -fsLS get.chezmoi.io)"
-  if [ -d ./bin ]; then
-    sudo mv ./bin/* $BIN_DIR/
-    chmod +x $BIN_DIR/chezmoi
-    rm -rf ./bin
-  fi
-  chezmoi init --apply $DOTFILES_URI.git
-}
 
 # Function to install apt packages
 install_packages() {
@@ -24,7 +14,13 @@ install_packages() {
     curl gcc jq zip unzip htop tmux vim python3 python3-pip \
     zsh fonts-powerline \
     ripgrep fd-find \
-    gh
+    gh \
+    fish
+}
+
+# Function to install chezmoi
+install_chezmoi() {
+  sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 }
 
 # Function to configure Fish shell
@@ -33,7 +29,7 @@ configure_fish() {
   fish -c "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
   fish -c "fisher install oh-my-fish/theme-bobthefish"
   curl -sL $DOTFILES_URI/raw/master/fish-aliases.sh -o /tmp/fish-aliases.sh
-  fish -c "fish /tmp/fish-aliases.sh"
+  fish /tmp/fish-aliases.sh
 }
 
 # Function to configure NX
@@ -44,9 +40,8 @@ configure_nx() {
 # Function to install Helix
 install_helix() {
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  sudo git clone https://github.com/helix-editor/helix /usr/local/helix
-  sudo chown -R $USER:$USER /usr/local/helix
-  cargo install --path /usr/local/helix/helix-term --locked --target-dir /usr/local/helix-target
+  source "$HOME/.cargo/env"
+  cargo install helix-term --locked
 }
 
 # Function to setup development workspace
@@ -56,8 +51,8 @@ setup_workspace() {
 
 # Main function to run all tasks
 main() {
-  install_chezmoi
   install_packages
+  install_chezmoi
   configure_fish
   configure_nx
   install_helix
